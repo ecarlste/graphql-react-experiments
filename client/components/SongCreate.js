@@ -2,6 +2,8 @@
 import gql from 'graphql-tag';
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
+import { Link, hashHistory } from 'react-router';
+import fetchSongs from '../queries/fetchSongs';
 
 class SongCreate extends Component {
   state = { title: '' };
@@ -15,7 +17,10 @@ class SongCreate extends Component {
     mutate({
       variables: {
         title
-      }
+      },
+      refetchQueries: [{ query: fetchSongs }]
+    }).then(() => {
+      hashHistory.push('/');
     });
   };
 
@@ -24,6 +29,7 @@ class SongCreate extends Component {
 
     return (
       <div>
+        <Link to="/">Back</Link>
         <h3>Create a new song...</h3>
         <form onSubmit={this.onSubmit.bind(this)}>
           <label>Song Title:</label>

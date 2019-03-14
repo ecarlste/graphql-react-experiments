@@ -16,7 +16,9 @@ export class LyricCreate extends Component {
         content,
         songId
       }
-    }).then(() => this.setState({ content: '' }));
+    });
+
+    this.setState({ content: '' });
   };
 
   render() {

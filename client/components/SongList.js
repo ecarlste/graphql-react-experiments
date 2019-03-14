@@ -1,17 +1,30 @@
+import gql from 'graphql-tag';
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import { Link } from 'react-router';
-import fetchSong from '../queries/fetchSongs';
-import gql from 'graphql-tag';
+import fetchSongs from '../queries/fetchSongs';
 
 class SongList extends Component {
+  onSongDelete = id => {
+    const { mutate, data } = this.props;
+
+    mutate({
+      variables: {
+        id
+      }
+    }).then(() => data.refetch());
+  };
+
   renderSongs() {
     const { data } = this.props;
 
-    return data.songs.map(song => {
+    return data.songs.map(({ id, title }) => {
       return (
-        <li key={song.id} className="collection-item">
-          {song.title}
+        <li key={id} className="collection-item">
+          {title}
+          <i className="material-icons" onClick={() => this.onSongDelete(id)}>
+            delete
+          </i>
         </li>
       );
     });
@@ -34,4 +47,12 @@ class SongList extends Component {
   }
 }
 
-export default graphql(fetchSong)(SongList);
+const mutation = gql`
+  mutation DeleteSong($id: ID) {
+    deleteSong(id: $id) {
+      id
+    }
+  }
+`;
+
+export default graphql(mutation)(graphql(fetchSongs)(SongList));

@@ -1,11 +1,22 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import gql from 'graphql-tag';
 import React, { Component } from 'react';
+import { graphql } from 'react-apollo';
 
-export default class SongCreate extends Component {
+class SongCreate extends Component {
   state = { title: '' };
 
   onSubmit = event => {
     event.preventDefault();
+
+    const { mutate } = this.props;
+    const { title } = this.state;
+
+    mutate({
+      variables: {
+        title
+      }
+    });
   };
 
   render() {
@@ -22,3 +33,13 @@ export default class SongCreate extends Component {
     );
   }
 }
+
+const mutation = gql`
+  mutation AddSong($title: String) {
+    addSong(title: $title) {
+      title
+    }
+  }
+`;
+
+export default graphql(mutation)(SongCreate);

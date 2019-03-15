@@ -22,7 +22,9 @@ class Header extends Component {
     if (user) {
       return (
         <div>
-          <a onClick={this.onLogoutClick.bind(this)}>Logout</a>
+          <li>
+            <a onClick={this.onLogoutClick.bind(this)}>Logout</a>
+          </li>
         </div>
       );
     }
@@ -42,12 +44,12 @@ class Header extends Component {
   render() {
     return (
       <nav>
-        <Link to="/" className="brand-logo left">
-          Home
-        </Link>
-        <ul className="right">
-          <div className="nav-wrapper">{this.renderButtons()}</div>
-        </ul>
+        <div className="nav-wrapper">
+          <Link to="/" className="brand-logo left">
+            Home
+          </Link>
+          <ul className="right">{this.renderButtons()}</ul>
+        </div>
       </nav>
     );
   }

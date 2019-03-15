@@ -1,14 +1,18 @@
 import React, { Fragment } from 'react';
-import { HashRouter, Route } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import Header from './Header';
+import LoginForm from './LoginForm';
 
 const App = () => {
   return (
-    <div>
+    <div className="container">
       <HashRouter>
         <Fragment>
           <Header />
-          <Route path="/" exact component={() => <div>funky body</div>} />
+          <Switch>
+            <Route path="/" exact component={() => <div>funky body</div>} />
+            <Route path="/login" component={LoginForm} />
+          </Switch>
         </Fragment>
       </HashRouter>
     </div>
